@@ -18,6 +18,9 @@ int i, j;
 int nbrDeProduit = 0;
 int choix;
 
+Produit prixTotal[50];
+int nobrAchat = 0;
+
 // fonction pour ajouter un nouveau produit
 void ajouterUnNouveauProduit(){
     printf("\nAjouter un nouveau produit\n");
@@ -202,20 +205,20 @@ void ajouterPlusieursProduits() {
 
   // fonction pour acheter un produit
     void acheterUnProduit() {
-    int quantiteAchetee;
     char produitCode[10];
-    printf("Veuillez entrer le code du produit que vous voulez acheter: ");
+    printf("Entrer le code de produit que vous voulez l'acheter: ");
     scanf("%s", produitCode);
-    printf("Entrez la quantite que vous voulez acheter: ");
-    scanf("%d", &quantiteAchetee);
+    printf("Entrer la quantite que vous voulez acheter: ");
+    scanf("%d", &prixTotal[nobrAchat].quantite);
     for (i = 0; i < nbrDeProduit; i++) {
-        if ( strcmp(tableDeProduit[i].code , produitCode ) == 0) {
-            tableDeProduit[i].quantite = tableDeProduit[i].quantite - quantiteAchetee; 
-            printf("La quantite apres l'achat est %d\n", tableDeProduit[i].quantite);
-            printf("Le prix TTC de cette operation est: %.2f\n", quantiteAchetee*(tableDeProduit[i].prix+tableDeProduit[i].prix*0.15));
+        if (strcmp (produitCode , tableDeProduit[i].code) == 0) {
+            tableDeProduit[i].quantite = tableDeProduit[i].quantite - prixTotal[nobrAchat].quantite;
+            printf("La quantite valable dans le stock apres l'achat est: %d\n", tableDeProduit[i].quantite);
+            prixTotal[nobrAchat].prix = (tableDeProduit[i].prix + tableDeProduit[i].prix*0.15) * prixTotal[nobrAchat].quantite;
+            printf("Le prix total de cette opperation est: %.2f\n", prixTotal[nobrAchat].prix);
+            nobrAchat++;
         }
-    }   
-       
+    }
         // ajouter la date
         time_t myTime;
         struct tm *todaytest;
@@ -379,10 +382,10 @@ void ajouterPlusieursProduits() {
     printf("Supprimer un produit\n__________________\n");
     char produitCode[10];
     THERE:
-    printf("Entrez le code de l'element a supprimer: "); 
+    printf("Entrez le code de l'element a supprimer\n: "); 
     scanf("%s", produitCode);
     for (i = 0; i < nbrDeProduit; i++) {
-        if (strcmp(tableDeProduit[i].code , produitCode) != 0 ) {
+        if (strcmp(tableDeProduit[i].code , produitCode) > 0 ) {
         printf("Entrer un code valable a un produit!!");
         goto THERE;
       }
@@ -391,10 +394,10 @@ void ajouterPlusieursProduits() {
             tableDeProduit[i] = tableDeProduit[i+1];            
         }
         nbrDeProduit--;
+      }
     }
-    }
-     printf("La suppression est hia hadik");
-     printf("______________________");
+     printf("Supprime avec succes");
+     printf("______________________\n");
      there:
         printf("\n-> Tapez 1 Pour retourner au menu principale");
         printf("\n-> Tapez 2 Pour quitter\n");
@@ -412,6 +415,15 @@ void ajouterPlusieursProduits() {
          printf(" votre choix n'est pas valide. merci de refaire votre choix ");
     }
     goto there; 
+  }
+
+  // fonction de statistique
+  void statistique () {
+    printf("Le prix total de tous les produits vendus dans la journee\n");
+    printf("__________________________________________\n");
+    for (i = 0; i < nobrAchat; i++) {
+
+    }
 
   }
 
@@ -427,7 +439,6 @@ void ajouterPlusieursProduits() {
     printf("-> Tapez 7 Pour afficher les produits dont la quantite est inferieure a 3\n");
     printf("-> Tapez 8 pour alimenter le stock\n");
     printf("-> Tapez 9 pour supprimer un produit\n");
-    printf("-> Tapez 10 Pour Quitter.\n\n");
     printf("======> Votre choix : ");
     scanf("%d",&choix);
     switch (choix) {
@@ -457,6 +468,9 @@ void ajouterPlusieursProduits() {
         break;
         case 9:
         supprimerUnProduit();
+        break;
+        case 10:
+        statistique();
         break;
         default:
         goto there;;
