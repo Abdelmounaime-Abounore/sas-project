@@ -210,10 +210,6 @@ void ajouterPlusieursProduits() {
     THERE:
     printf("Entrer le code de produit que vous voulez l'acheter: ");
     scanf("%s", produitCode);
-    for (i = 0; i < nbrDeProduit; i++){
-        if (strcmp (tableDeProduit[i].code, produitCode) > 0)
-        goto THERE;
-    }
     printf("Entrer la quantite que vous voulez acheter: ");
     scanf("%d", &tableAchat[nobrAchat].quantite);
     for (i = 0; i < nbrDeProduit; i++) {
@@ -426,14 +422,50 @@ void ajouterPlusieursProduits() {
   // fonction de statistique
   void statistique () {
     printf("__________________________________________\n");
+    // Pour calculer le prix total
     float lePrixTotal = 0;
     for (i = 0; i < nobrAchat; i++) {
-        lePrixTotal = lePrixTotal + tableAchat[i].prix;
+    lePrixTotal = lePrixTotal + tableAchat[i].prix;
     } 
     printf("Le prix total des produits vendus a cette journee est %.2f\n", lePrixTotal); 
     printf("_________________________\n");
+    // Pour calculer la moyen des prix
     float laMoyenPrix = lePrixTotal / nobrAchat;
     printf("La moyen des prix des produits vendus a cette journee est %.2f\n", laMoyenPrix);
+    printf("____________________________\n");
+    // Pour afficher le max des prix des produits vendus en journée courante
+    float prixMax = 0;
+    for (i = 0; i < nobrAchat; i++) {
+    if (tableAchat[i].prix > prixMax)
+    prixMax = tableAchat[i].prix;
+    }
+    printf("Le Max des prix des produits vendus en journee courante est: %.2f\n", prixMax);
+    printf("_______________________________\n");
+    // Pour afficher le max des prix des produits vendus en journée courante
+    float prixMin = 100000;
+    for (i = 0; i < nobrAchat; i++) {
+    if (tableAchat[i].prix < prixMin)
+    prixMin = tableAchat[i].prix;
+    }
+    printf("Le Min des prix des produits vendus en journee courante est: %.2f\n", prixMin);
+    printf("_______________________________\n\n");
+    there:
+        printf("\n-> Tapez 1 Pour retourner au menu principale");
+        printf("\n-> Tapez 2 Pour quitter\n");
+        printf("======> Votre choix : ");
+        scanf("%d",&choix);
+        switch(choix)
+        {
+        case 1 : 
+         main(); 
+         break;
+        case 2 : 
+         exit(0); 
+         break;
+        default :
+         printf(" votre choix n'est pas valide. merci de refaire votre choix ");
+    }
+    goto there;
   }
 
   int main(){
