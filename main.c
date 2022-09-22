@@ -13,13 +13,21 @@ int quantite;
 float prix;
 } Produit; 
 // variables Utilises
-Produit tableDeProduit[70];
+Produit tableDeProduit[70] = {
+    {"Dolipran", "dddd", 25, 20},
+    {"Beroca", "bbbb", 30, 25},
+    {"Aspro", "aaaa", 1, 3},
+    {"Cataflam", "cccc", 2, 40}
+};
 int i, j;
-int nbrDeProduit = 0;
+int nbrDeProduit = 4;
 int choix;
 
 Produit tableAchat[50];
 int nobrAchat = 0;
+
+
+
 
 // fonction pour ajouter un nouveau produit
 void ajouterUnNouveauProduit(){
@@ -354,12 +362,12 @@ void ajouterPlusieursProduits() {
     printf("Combien d'uniter voulez vous ajouter: ");
     scanf("%d", &unite);
     for (i = 0; i < nbrDeProduit; i++) {
-        if (tableDeProduit[i].code == produitCode) { 
+        if (strcmp(tableDeProduit[i].code , produitCode) == 0) { 
             tableDeProduit[i].quantite = tableDeProduit[i].quantite + unite; 
+            printf("Apres l'alimentation, la quantite de %s devient %d\n",tableDeProduit[i].nom ,tableDeProduit[i].quantite);
         }
-        printf("Apres l'alimentation, la quantite de %s devient %d\n", tableDeProduit[i].nom, tableDeProduit[i].quantite + unite);
-        printf("______________________\n");
     }
+    printf("______________________\n");
     there:
         printf("\n-> Tapez 1 Pour retourner au menu principale");
         printf("\n-> Tapez 2 Pour quitter\n");
@@ -433,7 +441,7 @@ void ajouterPlusieursProduits() {
     float laMoyenPrix = lePrixTotal / nobrAchat;
     printf("La moyen des prix des produits vendus a cette journee est %.2f\n", laMoyenPrix);
     printf("____________________________\n");
-    // Pour afficher le max des prix des produits vendus en journée courante
+    // Pour afficher le max des prix des produits vendus en journee courante
     float prixMax = 0;
     for (i = 0; i < nobrAchat; i++) {
     if (tableAchat[i].prix > prixMax)
@@ -441,7 +449,7 @@ void ajouterPlusieursProduits() {
     }
     printf("Le Max des prix des produits vendus en journee courante est: %.2f\n", prixMax);
     printf("_______________________________\n");
-    // Pour afficher le max des prix des produits vendus en journée courante
+    // Pour afficher le max des prix des produits vendus en journee courante
     float prixMin = 100000;
     for (i = 0; i < nobrAchat; i++) {
     if (tableAchat[i].prix < prixMin)
@@ -480,7 +488,7 @@ void ajouterPlusieursProduits() {
     printf("-> Tapez 7 Pour afficher les produits dont la quantite est inferieure a 3\n");
     printf("-> Tapez 8 pour alimenter le stock\n");
     printf("-> Tapez 9 pour supprimer un produit\n");
-    printf("-> Tapez 10 Pour afficherle prix total de tous les produits vendus dans la journee\n");
+    printf("-> Tapez 10 Pour afficher le rapport de cette journee\n");
     printf("======> Votre choix : ");
     scanf("%d",&choix);
     switch (choix) {
@@ -513,6 +521,9 @@ void ajouterPlusieursProduits() {
         break;
         case 10:
         statistique();
+        break;
+        case 11:
+        exit(0);
         break;
         default:
         goto there;;
